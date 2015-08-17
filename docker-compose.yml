@@ -1,0 +1,60 @@
+zookeeper:
+  image: mesoscope/zookeeper
+  environment:
+    - SERVER_ID=mesoscope-zk
+  ports:
+    - "2181:2181"
+
+mesosmaster:
+  image: mesoscope/mesos-master
+  links:
+    - zookeeper:zookeeper
+  environment:
+    - MESOS_ZK=zk://zookeeper:2181/mesos
+    - MESOS_PORT=5050
+    - MESOS_LOG_DIR=/var/log/mesos
+    - MESOS_QUORUM=1
+    - MESOS_REGISTRY=in_memory
+    - MESOS_WORK_DIR=/var/lib/mesos
+  ports:
+    - "5050:5050"
+
+mesosmarathon:
+  image: mesoscope/mesos-marathon
+  links:
+    - zookeeper:zookeeper
+  command: --master zk://zookeeper:2181/mesos --zk zk://zookeeper:2181/marathon
+  ports:
+    - "8080:8080"
+
+mesosslave:
+  image: mesoscope/mesos-slave
+  privileged: true
+  links:
+    - zookeeper:zookeeper
+    - dockerregistry:dockerregistry
+  volumes:
+    - /sys:/sys:ro
+  environment:
+    - MESOS_MASTER=zk://zookeeper:2181/mesos
+    - MESOS_LOG_DIR=/var/log/mesos
+    - MESOS_LOGGING_LEVEL=INFO
+    - MESOS_CONTAINERIZERS=docker,mesos
+    - MESOS_EXECUTOR_REGISTRATION_TIMEOUT=5mins
+  ports:
+    - "5051:5051"
+    - "31000:31000"
+    - "31001:31001"
+    - "31002:31002"
+    - "31003:31003"
+    - "31004:31004"
+    - "31005:31005"
+    - "31006:31006"
+    - "31007:31007"
+    - "31008:31008"
+    - "31009:31009"
+
+dockerregistry:
+  image: mesoscope/docker-registry
+  ports:
+    - "5000:5000"
