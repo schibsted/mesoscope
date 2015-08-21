@@ -29,6 +29,5 @@ LOOP_B=$(expr $LOOP_A + 1)
 ensure_loop $LOOP_A
 ensure_loop $LOOP_B
 
-docker -d --insecure-registry dockerregistry:5000 &
-sleep 5
-exec mesos-slave $@
+export DOCKER_DAEMON_ARGS='--insecure-registry dockerregistry:5000'
+exec wrapdocker mesos-slave $@

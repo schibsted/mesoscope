@@ -4,13 +4,21 @@
 
 FROM mesoscope/mesos-common
 
-RUN wget -qO- https://get.docker.com/ | sh
+RUN apt-get update && apt-get install -y --no-install-recommends \
+	apt-transport-https \
+	ca-certificates \
+	curl \
+	lxc \
+	iptables
+
+RUN curl -sSL https://get.docker.com/ubuntu/ | sh
 
 ADD start.sh /usr/local/bin/
-RUN chmod 755 /usr/local/bin/start.sh
+ADD wrapdocker /usr/local/bin/
+RUN chmod 755 /usr/local/bin/start.sh /usr/local/bin/wrapdocker
+
+VOLUME /var/lib/docker
 
 EXPOSE 5050
-
-VOLUME ["/sys"]
 
 ENTRYPOINT ["/usr/local/bin/start.sh"]

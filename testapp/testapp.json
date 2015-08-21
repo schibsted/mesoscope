@@ -1,12 +1,12 @@
 {
 	"id": "testapp",
-	"cpus": 0.5,
-	"mem": 64.0,
-	"instances": 2,
+	"cpus": 0.1,
+	"mem": 16.0,
+	"instances": 1,
 	"container": {
 		"type": "DOCKER",
 		"docker": {
-			"image": "dockerregistry:5000/testapp",
+			"image": "dockerregistry:5000/testapp:1",
 			"network": "BRIDGE",
 			"portMappings": [
 				{ "containerPort": 8001, "hostPort": 0, "servicePort": 8001, "protocol": "tcp" }
