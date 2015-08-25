@@ -22,7 +22,7 @@ More docker images for other components are coming. For instance:
 ## TL; DR
 
 In sort, it’s as easy as following the next steps: Install docker
-and docker-compose and run “make”. After doing this, you
+and docker-compose and run `make`. After doing this, you
 will have a local mesos cluster up and running.
 
 **IMPORTANT:** docker-compose sets up the mesos-slave containers
@@ -45,6 +45,16 @@ Depending on your environment, you might need
 
 ### Before you start
 
+#### Building time
+
+The first time you build the docker images, Mesos needs to be compiled. This
+means that it can take a while, so take a cup of coffee and be patient :)
+
+#### docker-machine, boot2docker or VM
+
+If you use docker-machine, boot2docker or run docker from a VM, it is
+recommended to assign it at least 2GB of RAM.
+
 #### Vagrant
 
 A Vagrantfile is included in the root folder of the project, which can be used
@@ -58,16 +68,6 @@ vagrant ssh
 
 Once inside the VM you can follow the rest of the instructions in this
 document.
-
-#### boot2docker or VM
-
-If you use boot2docker or run docker from a VM, it is recommended to assign
-it at least 2GB of RAM.
-
-#### Building time
-
-The first time you build the docker images, Mesos needs to be compiled. This
-means that it can take a while, so take a cup of coffee and be patient :)
 
 ### Bring up the environment
 
@@ -106,20 +106,20 @@ The docker registry included in this testing environment only allows HTTP
 connections, so you will need to re-initialize the docker daemon with the
 parameter `--insecure-registry <docker_host>:5000`.
 
-In the case of **boot2docker**, you can do it with the following commands:
-
-```
-$ boot2docker init  # Only needed if it's the first time you launch boot2docker
-$ boot2docker up
-$ boot2docker ssh "echo $'EXTRA_ARGS=\"--insecure-registry $(boot2docker ip):5000\"' | sudo tee -a /var/lib/boot2docker/profile && sudo /etc/init.d/docker restart"
-```
-
 In the case of **docker-machine**, you can do it with the following (remember
 to add the entry `dockermachine-vm` IP on /etc/hosts on your machine, the entry
 is already in the docker VM by default):
 
 ```
 docker-machine create --driver virtualbox  --engine-insecure-registry dockermachine-vm  --virtualbox-memory '2048' dockermachine-vm
+```
+
+In the case of **boot2docker**, you can do it with the following commands:
+
+```
+$ boot2docker init  # Only needed if it's the first time you launch boot2docker
+$ boot2docker up
+$ boot2docker ssh "echo $'EXTRA_ARGS=\"--insecure-registry $(boot2docker ip):5000\"' | sudo tee -a /var/lib/boot2docker/profile && sudo /etc/init.d/docker restart"
 ```
 
 After doing this, you can push new images to the registry using these commands:
@@ -137,13 +137,13 @@ Finally, use the Marathon API to deploy your app:
 $ cat testapp/testapp.json
 {
 	"id": "testapp",
-	"cpus": 0.5,
-	"mem": 64.0,
-	"instances": 2,
+	"cpus": 0.1,
+	"mem": 16.0,
+	"instances": 1,
 	"container": {
 		"type": "DOCKER",
 		"docker": {
-			"image": "dockerregistry:5000/testapp",
+			"image": "dockerregistry:5000/testapp:1",
 			"network": "BRIDGE",
 			"portMappings": [
 				{ "containerPort": 8001, "hostPort": 0, "servicePort": 8001, "protocol": "tcp" }
