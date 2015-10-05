@@ -1,4 +1,4 @@
-# Mesoscope
+![mesoscope](https://cloud.githubusercontent.com/assets/1223476/10282235/ee246ce6-6b79-11e5-87a3-e5e2bfe1a8d7.png)
 
 ## Introduction
 
