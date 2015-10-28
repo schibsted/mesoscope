@@ -9,7 +9,7 @@ RUN apt-get update && \
 	apt-get clean
 
 RUN mkdir -p /opt/mesos
-RUN wget -q -O - https://github.com/apache/mesos/archive/0.24.0.tar.gz | \
+RUN wget -q -O - https://github.com/apache/mesos/archive/0.25.0.tar.gz | \
 	tar -xzf - -C /opt/mesos --strip=1
 
 WORKDIR /opt/mesos
