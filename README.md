@@ -40,6 +40,11 @@ Depending on your environment, you might need
 [docker-machine](https://docs.docker.com/machine/) or 
 [boot2docker](http://boot2docker.io)
 
+The build leverages
+[mesos-build-helper](https://github.com/danigiri/mesos-build-helper) to build
+and cache an RPM version of Mesos for faster re-builds of the system. This is
+handled automagically by Mesoscope so there is no need to clone that project
+manually.
 
 ## Usage
 

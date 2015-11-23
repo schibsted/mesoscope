@@ -30,4 +30,6 @@ ensure_loop $LOOP_A
 ensure_loop $LOOP_B
 
 export DOCKER_DAEMON_ARGS='--insecure-registry dockerregistry:5000'
-exec wrapdocker mesos-slave $@
+#sleep 3600
+# TODO: check this out on why we can only have this kind of containerizer
+exec wrapdocker mesos-slave $@ --containerizers=docker
