@@ -173,6 +173,10 @@ Execute the command `make destroy`
   dependencies with 3rd-parties, etc.
 * Only the installation of dependencies (wget, gcc, etc.) are distro-centric.
 
+## Caveats
+
+At the moment only the Docker containerizer is supported 
+
 ## More information
 
 You can give a look to the file `docker-compose.yml` if you want to know which
