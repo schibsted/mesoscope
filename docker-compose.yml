@@ -1,3 +1,8 @@
+dockerregistry:
+  image: mesoscope/docker-registry
+  ports:
+    - "5000:5000"
+
 zookeeper:
   image: mesoscope/zookeeper
   environment:
@@ -41,6 +46,7 @@ mesosslave:
     - MESOS_LOGGING_LEVEL=INFO
     - MESOS_CONTAINERIZERS=docker,mesos
     - MESOS_EXECUTOR_REGISTRATION_TIMEOUT=5mins
+    - MESOS_WORK_DIR=/var/mesos
   ports:
     - "5051:5051"
     - "31000:31000"
@@ -53,8 +59,3 @@ mesosslave:
     - "31007:31007"
     - "31008:31008"
     - "31009:31009"
-
-dockerregistry:
-  image: mesoscope/docker-registry
-  ports:
-    - "5000:5000"

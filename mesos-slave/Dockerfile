@@ -11,11 +11,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 	lxc \
 	iptables
 
-RUN curl -sSL https://get.docker.com/ubuntu/ | sh
+RUN curl -sSL https://get.docker.com/ | sh
 
 ADD start.sh /usr/local/bin/
 ADD wrapdocker /usr/local/bin/
 RUN chmod 755 /usr/local/bin/start.sh /usr/local/bin/wrapdocker
+
+# workdir for the slave, as slaves start in --strict recovery mode, we need a sane workdir in place 
+RUN mkdir -p /var/mesos/meta/slaves
 
 VOLUME /var/lib/docker
 
