@@ -6,7 +6,7 @@
 	"container": {
 		"type": "DOCKER",
 		"docker": {
-			"image": "dockerregistry:5000/testapp:1",
+			"image": "dockerregistry:5000/testapp:latest",
 			"network": "BRIDGE",
 			"portMappings": [
 				{ "containerPort": 8001, "hostPort": 0, "servicePort": 8001, "protocol": "tcp" }

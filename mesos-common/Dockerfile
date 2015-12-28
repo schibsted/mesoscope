@@ -2,6 +2,8 @@
 
 FROM mesoscope/common
 
+ENV MESOS_PACKAGE mesos-0.26.0-1.x86_64.rpm 
+
 # following this http://mesos.apache.org/gettingstarted/
 RUN apt-get update && \
 	apt-get install -y --no-install-recommends build-essential \
@@ -27,7 +29,7 @@ RUN cd /usr/lib/x86_64-linux-gnu && \
 	ln -s libsvn_subr-1.so.1.0.0 libsvn_subr-1.so.0 && \
 	ln -s libcurl-nss.so libcurl.so.4
 
-COPY mesos-0.25.0-1.x86_64.rpm .
-RUN rpm -ivh --nodeps mesos-0.25.0-1.x86_64.rpm
-RUN rm -f mesos-0.25.0-1.x86_64.rpm
+COPY ${MESOS_PACKAGE} .
+RUN rpm -ivh --nodeps ${MESOS_PACKAGE} && \
+ rm -f ${MESOS_PACKAGE}
 

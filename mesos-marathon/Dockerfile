@@ -7,7 +7,7 @@
 FROM mesoscope/mesos-common
 
 RUN mkdir -p /opt/marathon
-RUN wget -q -O - http://downloads.mesosphere.com/marathon/v0.11.1/marathon-0.11.1.tgz | \
+RUN wget -q -O - http://downloads.mesosphere.com/marathon/v0.13.0/marathon-0.13.0.tgz | \
 	tar -xzf - -C /opt/marathon --strip=1
 
 WORKDIR /opt/marathon

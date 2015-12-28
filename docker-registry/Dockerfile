@@ -2,7 +2,7 @@
 
 FROM mesoscope/common
 
-ENV GOLANG_VERSION="1.4.2.linux-amd64"
+ENV GOLANG_VERSION="1.5.2.linux-amd64"
 ENV GOPATH="/go"
 ENV PATH="$GOPATH/bin:/usr/local/go/bin:$PATH"
 ENV SRVPATH="/opt/docker-registry"
@@ -16,7 +16,9 @@ RUN curl -sSL https://golang.org/dl/go${GOLANG_VERSION}.tar.gz | \
 
 RUN mkdir -p ${GOPATH}
 RUN go get -x github.com/tools/godep && \
-	godep get github.com/docker/distribution/cmd/registry
+	go get -x golang.org/x/sys/unix && \
+	go get -x github.com/inconshreveable/mousetrap && \
+	godep get github.com/docker/distribution/registry
 
 RUN mkdir -p ${SRVPATH}/conf ${SRVPATH}/data
 ADD files/config.yml ${SRVPATH}/conf/config.yml

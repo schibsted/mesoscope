@@ -4,7 +4,7 @@
 FROM mesoscope/common
 
 RUN mkdir -p /opt/zookeeper /tmp/zookeeper
-RUN wget -q -O - http://www.eu.apache.org/dist/zookeeper/zookeeper-3.4.6/zookeeper-3.4.6.tar.gz | \
+RUN wget -q -O - http://www.eu.apache.org/dist/zookeeper/zookeeper-3.4.7/zookeeper-3.4.7.tar.gz | \
 	tar -xzf - -C /opt/zookeeper --strip=1
 RUN cp /opt/zookeeper/conf/zoo_sample.cfg /opt/zookeeper/conf/zoo.cfg
 
