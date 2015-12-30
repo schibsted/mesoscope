@@ -63,8 +63,8 @@ If you use docker-machine, it is recommended to assign it at least 2GB of RAM.
 Execute the following command: `make` (which is the same that `make build && make compose`)
 
 The following control panels will be exposed:
-* Mesos: `http://<docker_host>:5050/`
-* Marathon: `http://<docker_host>:8080/`
+* Mesos: `http://dockermachine-vm:5050/`
+* Marathon: `http://dockermachine-vm:8080/`
 
 ![gif1](https://cloud.githubusercontent.com/assets/1223476/9304778/10b268a8-44ec-11e5-9c15-b1d630177516.gif)
 
@@ -96,8 +96,7 @@ connections, so you will need to start the docker daemon with the
 parameter `--insecure-registry dockermachine-vm:5000`.
 
 In the case of **docker-machine**, you can do it with the following (remember
-to add the entry `dockermachine-vm` IP on /etc/hosts on your machine, the entry
-is already in the docker VM by default):
+to add the entry `dockermachine-vm` IP on /etc/hosts on your machine):
 
 ```
 docker-machine create --driver virtualbox  --engine-insecure-registry dockermachine-vm  --virtualbox-memory '2048' dockermachine-vm
@@ -133,7 +132,7 @@ $ cat testapp/testapp.json
 	}
 }
 
-$ curl -X POST -H "Content-Type: application/json" http://<docker_host>:8080/v2/apps -d@testapp.json
+$ curl -X POST -H "Content-Type: application/json" http://dockermachine-vm:8080/v2/apps -d@testapp.json
 ```
 
 ![gif3](https://cloud.githubusercontent.com/assets/1223476/9304784/1b6c38be-44ec-11e5-87e5-693829c410d8.gif)
@@ -173,4 +172,3 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-
