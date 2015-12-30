@@ -34,12 +34,11 @@ mesosmarathon:
 
 mesosslave:
   image: mesoscope/mesos-slave
-  privileged: true
   links:
     - zookeeper:zookeeper
     - dockerregistry:dockerregistry
   volumes:
-    - /sys:/sys:ro
+    - /var/run/docker.sock:/var/run/docker.sock
   environment:
     - MESOS_MASTER=zk://zookeeper:2181/mesos
     - MESOS_LOG_DIR=/var/log/mesos

@@ -25,8 +25,8 @@ In sort, it’s as easy as following the next steps: Install docker
 and docker-compose and run `make`. After doing this, you
 will have a local mesos cluster up and running.
 
-**IMPORTANT:** docker-compose sets up the mesos-slave containers
-in privileged mode to be able to run docker inside.
+**IMPORTANT:** docker-compose makes the mesos-slave containers to
+share the docker's UNIX socket with their host.
 
 
 ## Dependencies
@@ -36,9 +36,8 @@ configure the following components before:
 * [docker](https://www.docker.com/)
 * [docker-compose](https://docs.docker.com/compose/)
 
-Depending on your environment, you might need 
-[docker-machine](https://docs.docker.com/machine/) or 
-[boot2docker](http://boot2docker.io)
+Depending on your environment (e.g. OSX), you might need 
+[docker-machine](https://docs.docker.com/machine/).
 
 The build leverages
 [mesos-build-helper](https://github.com/danigiri/mesos-build-helper) to build
@@ -55,24 +54,9 @@ manually.
 The first time you build the docker images, Mesos needs to be compiled. This
 means that it can take a while, so take a cup of coffee and be patient :)
 
-#### docker-machine, boot2docker or VM
+#### docker-machine
 
-If you use docker-machine, boot2docker or run docker from a VM, it is
-recommended to assign it at least 2GB of RAM.
-
-#### Vagrant
-
-A Vagrantfile is included in the root folder of the project, which can be used
-to build and test Mesoscope. Just execute the following commands to create and
-connect to the VM:
-
-```
-vagrant up
-vagrant ssh
-```
-
-Once inside the VM you can follow the rest of the instructions in this
-document.
+If you use docker-machine, it is recommended to assign it at least 2GB of RAM.
 
 ### Bring up the environment
 
@@ -108,8 +92,8 @@ Where d2b55aeb8b4d is the hostname of the mesos slave.
 ### Push images to the docker-registry:
 
 The docker registry included in this testing environment only allows HTTP
-connections, so you will need to re-initialize the docker daemon with the
-parameter `--insecure-registry <docker_host>:5000`.
+connections, so you will need to start the docker daemon with the
+parameter `--insecure-registry dockermachine-vm:5000`.
 
 In the case of **docker-machine**, you can do it with the following (remember
 to add the entry `dockermachine-vm` IP on /etc/hosts on your machine, the entry
@@ -119,19 +103,11 @@ is already in the docker VM by default):
 docker-machine create --driver virtualbox  --engine-insecure-registry dockermachine-vm  --virtualbox-memory '2048' dockermachine-vm
 ```
 
-In the case of **boot2docker**, you can do it with the following commands:
-
-```
-$ boot2docker init  # Only needed if it's the first time you launch boot2docker
-$ boot2docker up
-$ boot2docker ssh "echo $'EXTRA_ARGS=\"--insecure-registry $(boot2docker ip):5000\"' | sudo tee -a /var/lib/boot2docker/profile && sudo /etc/init.d/docker restart"
-```
-
 After doing this, you can push new images to the registry using these commands:
 
 ```
-$ docker tag image_name docker_host:5000/image_name
-$ docker push docker_host:5000/image_name
+$ docker tag image_name dockermachine-vm:5000/image_name
+$ docker push dockermachine-vm:5000/image_name
 ```
 
 ![gif2](https://cloud.githubusercontent.com/assets/1223476/9304780/1783a840-44ec-11e5-9cf9-9505c253e556.gif)
@@ -148,7 +124,7 @@ $ cat testapp/testapp.json
 	"container": {
 		"type": "DOCKER",
 		"docker": {
-			"image": "dockerregistry:5000/testapp:1",
+			"image": "dockermachine-vm:5000/image_name:latest",
 			"network": "BRIDGE",
 			"portMappings": [
 				{ "containerPort": 8001, "hostPort": 0, "servicePort": 8001, "protocol": "tcp" }
@@ -175,7 +151,7 @@ Execute the command `make destroy`
 
 ## Caveats
 
-At the moment only the Docker containerizer is supported 
+At the moment only the Docker containerizer is supported.
 
 ## More information
 

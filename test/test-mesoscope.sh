@@ -22,7 +22,7 @@ establishEnvironment() {
 	[ -z "$DK_MESOSMASTER_ID" ] &&  export DK_MESOSMASTER_ID=$( docker ps | grep 'mesoscope/mesos-master' | awk '{print $1}' )
 	[ -z "$DK_MESOSSLAVE_ID" ] &&  export DK_MESOSSLAVE_ID=$( docker ps | grep 'mesoscope/mesos-slave' | awk '{print $1}' )
 	[ -z "$DK_MARATHON_ID" ] &&  export DK_MARATHON_ID=$( docker ps | grep 'mesoscope/mesos-marathon' | awk '{print $1}' )
-	[ -z "$DK_REGISTRY_ID" ] &&  export DK_REGISTRY_ID=$( docker ps | grep 'mesoscope/docker-registry' | awk '{print $1}' )
+	[ -z "$DK_REGISTRY_ID" ] &&  export DK_REGISTRY_ID=$( docker ps | grep 'registry' | awk '{print $1}' )
 
 }
 
