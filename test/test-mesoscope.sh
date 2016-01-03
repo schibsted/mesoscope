@@ -1,6 +1,6 @@
 #!/bin/sh
 
-PROVASHELL_VERSION='provashell-2.1.1'
+PROVASHELL_VERSION='provashell-2.2.0'
 [ ! -e provashell ] && curl -O "https://raw.githubusercontent.com/danigiri/provashell/$PROVASHELL_VERSION/src/main/sh/provashell"
 
 
@@ -78,8 +78,9 @@ testDockerRegistry() {
 	testapp_image_=$( docker images | grep "$testapp_tag_" )
 
 	# build + push + rmi + pull to guarantee that we use the pushed image
-	echo 'Building and pushing the testapp image (takes a while)...'
+	echo 'Building the testapp image...'
 	assertDockerCmd "build -t $testapp_tag_ $MESOSCOPE_ROOT/testapp/" 'build of testapp failed'
+	echo 'Pushing the testapp image (takes a while)...'
 	assertDockerCmd "push $testapp_tag_" "failed to push image '$testapp_tag_', do you need to set the env var ACTUAL_DOCKER_HOST?"
 	assertDockerCmd "rmi -f $testapp_tag_" 'rmi of testapp failed'
 	assertDockerCmd "pull $testapp_tag_" 'pull of testapp failed'
@@ -101,6 +102,7 @@ testDockerRegistry() {
 PS_EXIT_ON_FAIL=1
 PS_FAILS_TO_STDERR=1
 PS_VERBOSE=1
+PS_NET_TIMEOUT=5
 
 . ./helpers/docker.sh
 . ./helpers/http.sh
