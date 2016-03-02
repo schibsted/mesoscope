@@ -1,4 +1,4 @@
-MESOS_VER=0.26.0
+MESOS_VER=0.27.1
 MESOS_HELPER_URL=https://codeload.github.com/danigiri/mesos-build-helper/zip/$(MESOS_VER) 
 
 all: build compose

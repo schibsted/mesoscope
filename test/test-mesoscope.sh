@@ -35,8 +35,8 @@ testZookeeper() {
 	# from the docker image list a nonexistant node in zookeeper and check for expected output
 	zk_path_='/NON3XISTANTNODE123'
 	docker_exec_="echo 'ls $zk_path_' | sudo -u nobody /opt/zookeeper/bin/zkCli.sh"
-	docker_output_=$( docker exec "$DK_ZOOKEEPER_ID" bash -c "$docker_exec_" 2>&1 | grep Node )
-	assertEquals "Listing nonexistant node in  ($docker_output_)" "Node does not exist: $zk_path_" "$docker_output_"
+	docker_return_code_=$( docker exec "$DK_ZOOKEEPER_ID" bash -c "$docker_exec_" 2>&1 | grep -q Node; echo $? )
+	assertTrue "Could not launch a query to zookeeper (returned code=$docker_return_code_)" "$docker_return_code_"
 
 }
 
