@@ -15,7 +15,7 @@ build-zookeeper: build-common
 mesos-common/mesos-$(MESOS_VER)-1.x86_64.rpm:
 	mkdir -p tmp && cd tmp && curl -s -S "$(MESOS_HELPER_URL)" -o mesos-build-helper-$(MESOS_VER).zip
 	unzip -q -u tmp/mesos-build-helper-$(MESOS_VER).zip -d tmp
-	DOCKER_FILE=Dockerfile-ubuntu cd tmp/mesos-build-helper-$(MESOS_VER) && source ./script/build
+	DOCKER_FILE=Dockerfile-ubuntu cd tmp/mesos-build-helper-$(MESOS_VER) && ./script/build
 	cp -v tmp/mesos-build-helper-$(MESOS_VER)/mesos-$(MESOS_VER)-1.x86_64.rpm mesos-common
 
 build-mesos-common: build-common mesos-common/mesos-$(MESOS_VER)-1.x86_64.rpm
